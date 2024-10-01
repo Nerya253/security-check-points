@@ -1,0 +1,43 @@
+/* כל הדפים */
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #627a7a;
+    padding: 0;
+    margin: 0;
+    text-align: center;
+    align-items: center;
+}
+
+#h1 {
+    width: fit-content;
+    margin: 60px auto;
+    color: rgb(0, 0, 0);
+    box-shadow: 0 0 10px 10px rgba(0, 0, 0, 0.6);
+    padding: 15px;
+    border: solid rgb(0, 0, 0) 1px;
+    border-radius: 5px;
+    background-color: aliceblue;
+}
+
+/* .......................................................... */
+/* select page */
+
+
+
+#span-select {
+    width: fit-content;
+    display: flex;
+    margin: auto;
+    gap: 1rem;
+}
+
+
+#span-select span {
+    color: rgb(0, 0, 0);
+    padding: 10px 20px;
+    border: rgb(0, 0, 0) solid 1px;
+    border-radius: 10px;
+    background-color: aliceblue;
+    box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.3);
+}
