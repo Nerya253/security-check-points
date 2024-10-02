@@ -3,7 +3,7 @@ let pointsToFill = "";
 let pointsToShow = points;
 
 async function GetPoints() {
-    let url = "/point-get";
+    let url = "/point";
     let response = await fetch(url);
     let data = await response.json();
     points = data;
@@ -25,6 +25,7 @@ function FillTable() {
 }
 
 GetPoints();
+getBooksFromServer();
 
 function AddNewPoint() {
     let pointId = points.length+1;
@@ -47,7 +48,24 @@ function AddNewPoint() {
     FillTable();
 }
 
+async function getPointsFromServer() {
+    const response = await fetch('/point-get') 
+    const serverPoint = await response.json()
+    return serverPoint;
+}
 
+async function createPointToServer(point) {
+    let url = "/point";
+    const response = await fetch(url, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(point)
+    })
+    const data = response.json()
+    return data;   
+}
 
 
 document.addEventListener('keydown', function (event) {

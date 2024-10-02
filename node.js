@@ -25,12 +25,12 @@ const points = [
 ];
 
 // קריאת כל הנקודות (get)
-app.get('/point-get', (req, res) => {
+app.get('/point', (req, res) => {
     res.status(200).json(points);
 });
 
 //יצירת נקודה חדשה (POST)
-app.patch('/point-new', (req, res) => {
+app.post('/point', (req, res) => {
     let point = {};
     point.id = points.length+1;          
     point.location = req.body.location;
@@ -41,7 +41,7 @@ app.patch('/point-new', (req, res) => {
 });
 
 //עדכון נקודה (PATCH)
-app.post('/points-edit/:idx', (req, res) => {
+app.patch('/points/:idx', (req, res) => {
     let idx = points.length+1;  
     let point = {};
     point.location = req.body.location;
@@ -51,7 +51,7 @@ app.post('/points-edit/:idx', (req, res) => {
 });
 
 //מחיקת נקודה (DELETE)
-app.delete('/points-delete/:idx'), (req, res) => {
+app.delete('/points/:idx'), (req, res) => {
     let idx = req.query.id;
     points.splice(idx, 1);
 
