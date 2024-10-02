@@ -9,50 +9,51 @@
 </head>
 
 <body>
-        <h1 id="h1">Access point management</h1>
-        <div id="points-conteiner">
-            <div id="place-add-point">
-                <h2 id="h2">הוסף נקודת שמירה</h2>
-                <input type="text" id="point-name" placeholder="שם נקודת שמירה">
-                <button id="addPoint-btn">הוסף נקודת שמירה</button>
-            </div>
-
-            <div id="list-points">
-                <h2>רשימת נקודות שמירה</h2>
-
-<table id="MainTable" border="1">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Location</th>
-        </tr>
-    </thead>
-    <tbody>
-    </tbody>
-</table>          
-            </div>
-
-            <div id="tiod-place">
-                <h2>תיעוד ביקורים</h2>
-                <table id="tiod-bikur-tavla" border="1">
-                    <thead>
-                        <tr>
-                            <th>מספר ביקור</th>
-                            <th>נקודת שמירה</th>
-                            <th>שעת ביקור</th>
-                        </tr>
-                    </thead>
-
-                    <tbody id="visitsBody">
-
-                    </tbody>
-                </table>
-            </div>
+    <h1 id="h1">Access point management</h1>
+    <div id="points-conteiner">
+        <div id="place-add-point">
+            <h2 id="h2">הוסף נקודת שמירה</h2>
+            <input type="text" id="point-name" placeholder="שם נקודת שמירה">
+            <button id="addPoint-btn">הוסף נקודת שמירה</button>
         </div>
-        <div>
-            <button class="move-btn" onclick="window.location.href='/public/select.html'">back to select</button>
+
+        <div id="list-points">
+            <h2>רשימת נקודות שמירה</h2>
+
+            <table id="MainTable" border="1">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>מיקום</th>
+                    </tr>
+                </thead>
+                <tbody id="tbodyMainTable">
+                    
+                </tbody>
+            </table>
         </div>
-        <script src="script.js"></script>
+
+        <div id="tiod-place">
+            <h2>תיעוד ביקורים</h2>
+            <table id="tiod-bikur-tavla" border="1">
+                <thead>
+                    <tr>
+                        <th>מספר ביקור</th>
+                        <th>נקודת שמירה</th>
+                        <th>שעת ביקור</th>
+                    </tr>
+                </thead>
+
+                <tbody id="visitsBody">
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div>
+        <button class="move-btn" onclick="window.location.href='/public/select.html'">back to select</button>
+    </div>
+    <script src="script.js"></script>
     </main>
 </body>
 

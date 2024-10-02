@@ -115,15 +115,20 @@ h2 {
     margin: auto;
 }
 
-li{
-    width: fit-content;
-    padding: 5px;
-    display: flex;
-    border: #000000 solid 1PX;
+#MainTable{
+    width: 50%;
     margin: auto;
-    margin-bottom: 5px;
 }
 
+#edit{
+width: fit-content;
+background-color: orange;
+}
+
+#delete{
+width: fit-content;
+    background-color: red;
+}
 
 
 /* .......................................................... */
