@@ -30,7 +30,7 @@ app.get('/point-get', (req, res) => {
 });
 
 //יצירת נקודה חדשה (POST)
-app.post('/point-new', (req, res) => {
+app.patch('/point-new', (req, res) => {
     let point = {};
     point.id = points.length+1;          
     point.location = req.body.location;
@@ -41,7 +41,7 @@ app.post('/point-new', (req, res) => {
 });
 
 //עדכון נקודה (PATCH)
-app.patch('/points-edit/:idx', (req, res) => {
+app.post('/points-edit/:idx', (req, res) => {
     let idx = points.length+1;  
     let point = {};
     point.location = req.body.location;

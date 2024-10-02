@@ -26,4 +26,33 @@ function FillTable() {
 
 GetPoints();
 
+function AddNewPoint() {
+    let pointId = points.length+1;
+    let pointLocation = document.getElementById("point-name").value;
 
+    if (!pointLocation ) {
+        alert("מלא את כל השדות");
+        return;
+    }
+
+    point = {
+        id: pointId,
+        location: pointLocation
+    };
+
+    points.push(point);
+
+    createPointToServer(point);
+
+    FillTable();
+}
+
+
+
+
+document.addEventListener('keydown', function (event) {
+    if (event.key === 'Enter') {
+        event.preventDefault(); //מבטל פעולת ברירת מחדל
+        AddNewPoint();
+    }
+});
