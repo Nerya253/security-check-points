@@ -10,13 +10,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 const port = 3333;
 
-
-
 //מסלול כתובת ראשית
 app.get('/', (req, res) => { 
     res.sendFile(path.join(__dirname, '/public/manager.html'));
 });
-
 //נקודות התחלה
 const points = [
     { id: 1, location: "כניסה"},
@@ -25,12 +22,12 @@ const points = [
 ];
 
 // קריאת כל הנקודות (get)
-app.get('/point', (req, res) => {
+app.get('/points', (req, res) => {
     res.status(200).json(points);
 });
 
 //יצירת נקודה חדשה (POST)
-app.post('/point', (req, res) => {
+app.post('/points', (req, res) => {
     let point = {};
     point.id = points.length+1;          
     point.location = req.body.location;
@@ -63,3 +60,6 @@ app.listen(port, () => {
     console.log(`Live server! \nhttp://localhost:${port}`);
 });
 
+app.get('/guardPage', (req, res) => {
+    res.status(200).sendFile(path.join(__dirname,"/public/guard.html"));
+});
