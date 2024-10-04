@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <title>תיעוד ביקורים</title>
+    
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="style.css">
+        <title>תיעוד ביקורים</title>
+        <script  src="script.js" defer></script>
 </head>
 
 <body>
@@ -16,17 +17,16 @@
             <h2>בחר נקודת שמירה לתיעוד ביקור</h2>
         </div>
         <div>
-            <select id="visitPointSelect">רשימת נקודות</select>
+            <select id="visitPointSelect"></select>
             <button id="button">תעד ביקור</button>
         </div>
     </div>
     <div>
-        <button class="move-btn" onclick="window.location.href='/public/select.html'">back to select</button>
+        <button class="move-btn"><a href="select.html">back to select</a></button>
     </div>
 
 
 
-    <script src="script.js" defer></script>
 </body>
 
 </html>

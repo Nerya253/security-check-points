@@ -12,14 +12,12 @@ const port = 3333;
 
 //מסלול כתובת ראשית
 app.get('/', (req, res) => { 
-    res.sendFile(path.join(__dirname, '/public/manager.html'));
+    res.sendFile(path.join(__dirname, '/public/select.html'));
 });
+
+let pointsCnt = 3;
 //נקודות התחלה
-const points = [
-    { id: 1, location: "כניסה"},
-    { id: 2, location: "קומה 1"},
-    { id: 3, location: "קומה 2"}
-];
+const points = [];
 
 // קריאת כל הנקודות (get)
 app.get('/points', (req, res) => {
@@ -29,9 +27,8 @@ app.get('/points', (req, res) => {
 //יצירת נקודה חדשה (POST)
 app.post('/points', (req, res) => {
     let point = {};
-    point.id = points.length+1;          
+    point.id = pointsCnt++;
     point.location = req.body.location;
-
     points.push(point);
 
     res.status(200).json("ok");
@@ -39,7 +36,7 @@ app.post('/points', (req, res) => {
 
 //עדכון נקודה (PATCH)
 app.patch('/points/:idx', (req, res) => {
-    let idx = points.length+1;  
+    let idx = req.params.idx;  
     let point = {};
     point.location = req.body.location;
     points[idx] = point;
@@ -48,18 +45,20 @@ app.patch('/points/:idx', (req, res) => {
 });
 
 //מחיקת נקודה (DELETE)
-app.delete('/points/:idx'), (req, res) => {
-    let idx = req.query.id;
+app.delete('/points/:idx', (req, res) => {
+    let idx = req.params.idx;
     points.splice(idx, 1);
 
     res.status(200).json(points);
-}
-
-
-app.listen(port, () => {
-    console.log(`Live server! \nhttp://localhost:${port}`);
 });
 
 app.get('/guardPage', (req, res) => {
     res.status(200).sendFile(path.join(__dirname,"/public/guard.html"));
 });
+
+app.listen(port, () => {
+    console.log(`Live server! \nhttp://localhost:${port}`);
+});
+
+
+

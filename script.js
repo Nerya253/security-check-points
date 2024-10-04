@@ -2,31 +2,29 @@ let points = [];
 let pointsToShow = points;
 
 async function GetPoints() {
-    let url = "/points";  
+    let url = "/points";
     let response = await fetch(url);
     let data = await response.json();
-    points = data;
-    pointsToShow = points;
-    FillTable(); 
+    
+    return data;
 }
 
-
-function FillTable() {
+async function FillTable() {
+    pointsToShow = await GetPoints();
     let s = "";
     for (let i = 0; i < pointsToShow.length; i++) {
         s += "<tr>";
-        s += `<td>${pointsToShow[i].id}</td>`;
+        s += `<td>${i+1}</td>`;
         s += `<td>${pointsToShow[i].location}</td>`;
-        s += `<td><button id="edit" ">עריכה</button></td>`;
-        s += `<td><button id="delete" ">מחיקה</button></td>`;
+        s += `<td><button id="edit" onclick="editPoint(${i})">עריכה</button></td>`;
+        s += `<td><button id="delete" onclick="deletePoint(${i})">מחיקה</button></td>`;
         s += "</tr>";
     }
+    
     document.getElementById("tbodyMainTable").innerHTML = s;
 }
 
-
 function AddNewPoint() {
-    let pointId = points.length + 1;
     let pointLocation = document.getElementById("point-name").value;
 
     if (!pointLocation) {
@@ -35,18 +33,16 @@ function AddNewPoint() {
     }
 
     let point = {
-        id: pointId,
         location: pointLocation
     };
 
     points.push(point);
-    createPointToServer(point);  
+    createPointToServer(point);
     FillTable();
 }
 
-
 async function createPointToServer(point) {
-    let url = "/points"; 
+    let url = "/points";
     await fetch(url, {
         method: "POST",
         headers: {
@@ -56,6 +52,24 @@ async function createPointToServer(point) {
     });
 }
 
+
+async function deletePointFromServer(PointId) {
+    let url = `/points/${PointId}`;
+    const response = await fetch(url, {
+        method: 'DELETE',
+        headers: {
+            "Content-Type": "application/json",
+        },
+    }
+    );
+}
+
+
+async function deletePoint(PointId) {
+    await deletePointFromServer(PointId);
+    FillTable();
+    console.log("Trying to delete point with id:", PointId); // וודא שהאינדקס שאתה שולח נכון
+}
 
 async function guardPoints() {
     let url = "/points";
@@ -73,14 +87,17 @@ async function guardPoints() {
     document.getElementById("visitPointSelect").innerHTML = s;
 }
 
-GetPoints(); 
+FillTable();
 guardPoints();
 
 
-// האזנה ללחיצה על Enter להוספת נקודה חדשה
+
+
+
+// האזנה ללחיצה על Enter 
 document.addEventListener('keydown', function (event) {
     if (event.key === 'Enter') {
-        event.preventDefault(); 
+        event.preventDefault();
         AddNewPoint();
     }
 });

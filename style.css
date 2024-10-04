@@ -35,6 +35,11 @@ body {
     background-color: #0056b3;
 }
 
+a{
+    text-decoration: none;
+    color: #fff;
+}
+
 /* .......................................................... */
 /* select page */
 
@@ -118,6 +123,10 @@ h2 {
 #MainTable{
     width: 50%;
     margin: auto;
+}
+
+td{
+padding: 5px 32px;
 }
 
 #edit{

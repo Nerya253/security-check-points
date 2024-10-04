@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <title>ניהול נקודות שמירה</title>
+    
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="style.css">
+        <title>ניהול נקודות שמירה</title>
+        <script src="script.js" defer></script>
 </head>
 
 <body>
@@ -25,6 +26,9 @@
                     <tr>
                         <th>#</th>
                         <th>מיקום</th>
+                        <th>עריכה</th>
+                        <th>מחיקה</th>
+
                     </tr>
                 </thead>
                 <tbody id="tbodyMainTable">
@@ -51,9 +55,8 @@
         </div>
     </div>
     <div>
-        <button class="move-btn" onclick="window.location.href='/public/select.html'">back to select</button>
+        <button class="move-btn"><a href="select.html">back to select</a></button>
     </div>
-    <script src="script.js" defer></script>
     </main>
 </body>
 
