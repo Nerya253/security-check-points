@@ -15,9 +15,9 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '/public/select.html'));
 });
 
-let pointsCnt = 3;
+let pointsCnt = 0;
 //נקודות התחלה
-const points = [];
+let points = [];
 
 // קריאת כל הנקודות (get)
 app.get('/points', (req, res) => {
@@ -34,15 +34,26 @@ app.post('/points', (req, res) => {
     res.status(200).json("ok");
 });
 
-//עדכון נקודה (PATCH)
+// עריכת נקודה (PATCH)
 app.patch('/points/:idx', (req, res) => {
     let idx = req.params.idx;  
     let point = {};
-    point.location = req.body.location;
-    points[idx] = point;
+    points[idx].location = req.body.location;
 
     res.status(200).json("ok");
 });
+
+// עריכת נקודה (PATCH)
+app.patch('/points/:idx', (req, res) => {
+    let idx = req.params.idx;  
+    if (points[idx]) {
+        points[idx].location = req.body.location; // עדכון מיקום הנקודה הקיימת
+        res.status(200).json("ok");
+    } else {
+        res.status(404).json({ message: "Point not found" });
+    }
+});
+
 
 //מחיקת נקודה (DELETE)
 app.delete('/points/:idx', (req, res) => {

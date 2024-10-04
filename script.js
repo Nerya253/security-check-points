@@ -1,6 +1,7 @@
 let points = [];
 let pointsToShow = points;
 
+
 async function GetPoints() {
     let url = "/points";
     let response = await fetch(url);
@@ -24,6 +25,8 @@ async function FillTable() {
     document.getElementById("tbodyMainTable").innerHTML = s;
 }
 
+
+
 function AddNewPoint() {
     let pointLocation = document.getElementById("point-name").value;
 
@@ -37,11 +40,11 @@ function AddNewPoint() {
     };
 
     points.push(point);
-    createPointToServer(point);
+    addPointToServer(point);
     FillTable();
 }
 
-async function createPointToServer(point) {
+async function addPointToServer(point) {
     let url = "/points";
     await fetch(url, {
         method: "POST",
@@ -52,6 +55,43 @@ async function createPointToServer(point) {
     });
 }
 
+
+
+
+function editPoint(index) {
+    let currentLocation = pointsToShow[index].location;
+    
+    let newName = prompt("הכנס את השם החדש", currentLocation);
+
+    if (newName === null || newName.trim() === "") { 
+        return; // 
+    }
+    
+    pointsToShow[index].location = newName; 
+    console.log(pointsToShow[index].id);
+
+    updatePointOnServer(pointsToShow[index].id, newName);
+    FillTable(); 
+}
+
+async function updatePointOnServer(pointId, newName) {
+    let url = `/points/${pointId}`;
+    await fetch(url, {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ location: newName })
+    });
+}
+
+
+
+
+async function deletePoint(PointId) {
+    await deletePointFromServer(PointId);
+    FillTable();
+}
 
 async function deletePointFromServer(PointId) {
     let url = `/points/${PointId}`;
@@ -65,11 +105,6 @@ async function deletePointFromServer(PointId) {
 }
 
 
-async function deletePoint(PointId) {
-    await deletePointFromServer(PointId);
-    FillTable();
-    console.log("Trying to delete point with id:", PointId); // וודא שהאינדקס שאתה שולח נכון
-}
 
 async function guardPoints() {
     let url = "/points";
