@@ -11,11 +11,15 @@ async function GetPoints() {
 }
 
 async function FillTable() {
+
     pointsToShow = await GetPoints();
     let s = "";
     for (let i = 0; i < pointsToShow.length; i++) {
+        console.log(pointsToShow[i]);
+        
         s += "<tr>";
         s += `<td>${i+1}</td>`;
+        // s += `<td>${pointsToShow[i].id}</td>`;
         s += `<td>${pointsToShow[i].location}</td>`;
         s += `<td><button id="edit" onclick="editPoint(${i})">עריכה</button></td>`;
         s += `<td><button id="delete" onclick="deletePoint(${i})">מחיקה</button></td>`;
@@ -64,11 +68,10 @@ function editPoint(index) {
     let newName = prompt("הכנס את השם החדש", currentLocation);
 
     if (newName === null || newName.trim() === "") { 
-        return; // 
+        return; 
     }
     
     pointsToShow[index].location = newName; 
-    console.log(pointsToShow[index].id);
 
     updatePointOnServer(pointsToShow[index].id, newName);
     FillTable(); 
@@ -88,10 +91,21 @@ async function updatePointOnServer(pointId, newName) {
 
 
 
-async function deletePoint(PointId) {
-    await deletePointFromServer(PointId);
+async function deletePoint(pointId) {
+    // מוחק את הנקודה בשרת
+    await deletePointFromServer(pointId);
+
+    // מעדכן את ה-ID של הנקודות שנותרו
+    for (let i = 0; i < pointsToShow.length; i++) {
+        if (pointsToShow[i].id > pointId) {
+            pointsToShow[i].id--; // כל ID גדול מהנקודה שנמחקה יוקטן ב-1
+        }
+    }
+
+    // טען את הטבלה שוב כדי לראות את השינויים
     FillTable();
 }
+
 
 async function deletePointFromServer(PointId) {
     let url = `/points/${PointId}`;
@@ -103,8 +117,6 @@ async function deletePointFromServer(PointId) {
     }
     );
 }
-
-
 
 async function guardPoints() {
     let url = "/points";
