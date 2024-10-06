@@ -36,7 +36,7 @@ function AddNewPoint() {
         alert("מלא את כל השדות");
         return;
     }
-    if(sameName(pointLocation)){
+    if (sameName(pointLocation)) {
         alert("הנקודה קיימת");
         return;
     }
@@ -51,10 +51,10 @@ function AddNewPoint() {
     document.getElementById("point-name").value = "";
 }
 //בדיקה שברגע הוספת נקודה אין נקודה עם אותו שם
-function sameName(pointLocation){
+function sameName(pointLocation) {
     let same = false;
-    for(let i=0;i<pointsToShow.length;i++){
-        if(pointsToShow[i].location === pointLocation){
+    for (let i = 0; i < pointsToShow.length; i++) {
+        if (pointsToShow[i].location === pointLocation) {
             same = true;
             break;
         }
@@ -78,23 +78,33 @@ async function addPointToServer(point) {
 function editPoint(index) {
     let currentPoint = pointsToShow[index].location;
     let newName = prompt("הכנס את השם החדש", currentPoint);
-    
+    let haveOneMore = false;
+
     if (newName === null || newName.trim() === "") {
         return;
     }
-    let haveOneMore = false;
+
+    pointsToShow.forEach(point => {
+        console.log(point.location);
+        if (newName === point.location) {
+            alert("הנקודה קיימת");
+            haveOneMore = true;
+            return;
+        }
+    })
+    if (haveOneMore) return
 
     pointsToShow[index].location = newName;
 
     updateEditPointOnServer(pointsToShow[index].id, newName);
     FillTable();
-    updateVisitLogs(currentPoint,newName);
+    updateVisitLogs(currentPoint, newName);
 }
 
 //במידה וערכתי את השם תעדכן גם בטבלת תיעודים
-function updateVisitLogs(currentPoint,newName){
+function updateVisitLogs(currentPoint, newName) {
     visits.forEach(visit => {
-        console.log(visit,currentPoint);
+        console.log(visit, currentPoint);
         if (visit.pointName === currentPoint) {
             visit.pointName = newName;
         }
@@ -210,7 +220,7 @@ async function managerGetVisits() {
     });
 }
 
-function loadManagerPage(){
+function loadManagerPage() {
     FillTable();
     managerGetVisits();
 }
