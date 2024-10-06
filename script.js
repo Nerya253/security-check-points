@@ -16,8 +16,6 @@ async function FillTable() {
     pointsToShow = await GetPoints();
     let s = "";
     for (let i = 0; i < pointsToShow.length; i++) {
-        console.log(pointsToShow[i]);
-
         s += "<tr>";
         s += `<td>${i + 1}</td>`;
         s += `<td>${pointsToShow[i].location}</td>`;
@@ -38,7 +36,10 @@ function AddNewPoint() {
         alert("מלא את כל השדות");
         return;
     }
-
+    if(sameName(pointLocation)){
+        alert("הנקודה קיימת");
+        return;
+    }
     let point = {
         location: pointLocation
     };
@@ -49,6 +50,18 @@ function AddNewPoint() {
 
     document.getElementById("point-name").value = "";
 }
+//בדיקה שברגע הוספת נקודה אין נקודה עם אותו שם
+function sameName(pointLocation){
+    let same = false;
+    for(let i=0;i<pointsToShow.length;i++){
+        if(pointsToShow[i].location === pointLocation){
+            same = true;
+            break;
+        }
+    }
+    return same;
+}
+
 //הוספת הנקודה החדשה לשרת
 async function addPointToServer(point) {
     let url = "/points";
@@ -63,21 +76,34 @@ async function addPointToServer(point) {
 
 //עריכת נקודה
 function editPoint(index) {
-    let currentLocation = pointsToShow[index].location;
-
-    let newName = prompt("הכנס את השם החדש", currentLocation);
-
+    let currentPoint = pointsToShow[index].location;
+    let newName = prompt("הכנס את השם החדש", currentPoint);
+    
     if (newName === null || newName.trim() === "") {
         return;
     }
+    let haveOneMore = false;
 
     pointsToShow[index].location = newName;
 
-    editPointOnServer(pointsToShow[index].id, newName);
+    updateEditPointOnServer(pointsToShow[index].id, newName);
     FillTable();
+    updateVisitLogs(currentPoint,newName);
 }
-//שמירת הנקודה הערוכה בשרת
-async function editPointOnServer(pointId, newName) {
+
+//במידה וערכתי את השם תעדכן גם בטבלת תיעודים
+function updateVisitLogs(currentPoint,newName){
+    visits.forEach(visit => {
+        console.log(visit,currentPoint);
+        if (visit.pointName === currentPoint) {
+            visit.pointName = newName;
+        }
+    })
+    managerGetVisits();
+}
+
+//עדכון העריכה בשרת
+async function updateEditPointOnServer(pointId, newName) {
     let url = `/points/${pointId}`;
     await fetch(url, {
         method: "PATCH",
@@ -100,6 +126,7 @@ async function deletePoint(pointId) {
 
     FillTable();
 }
+
 //מחיקת הנקודה מהשרת
 async function deletePointFromServer(PointId) {
     let url = `/points/${PointId}`;
@@ -129,7 +156,7 @@ async function guardPoints() {
     document.getElementById("visitPointSelect").innerHTML = s;
 }
 
-//שמירת תיעוד ביקוד
+//שמירת תיעוד ביקור
 function submitVisit() {
     let select = document.getElementById("visitPointSelect");
     let pointId = select.value;
@@ -143,7 +170,9 @@ function submitVisit() {
         date: visitDate
     };
     sendVisitToServer(visitData);
+    alert("התיעוד נשלח")
 }
+
 //שמירת כל נתוני התיעוד בשרת
 async function sendVisitToServer(visitData) {
     let url = "/Visit";
@@ -155,6 +184,7 @@ async function sendVisitToServer(visitData) {
         body: JSON.stringify(visitData)
     });
 }
+let visits;
 
 //קבלת כל רשימת התיעודים מהשרת לדף המנהל
 async function managerGetVisits() {
@@ -165,8 +195,7 @@ async function managerGetVisits() {
             "Content-Type": "application/json",
         },
     });
-    const visits = await response.json();
-console.log(visits);
+    visits = await response.json();
 
     let tbody = document.getElementById("visitsBody");
     tbody.innerHTML = "";
@@ -181,7 +210,6 @@ console.log(visits);
     });
 }
 
-
 function loadManagerPage(){
     FillTable();
     managerGetVisits();
@@ -194,3 +222,4 @@ document.addEventListener('keydown', function (event) {
         AddNewPoint();
     }
 });
+
