@@ -1,8 +1,7 @@
 let points = [];
 let pointsToShow = points;
-managerGetVisits();
-FillTable();
-guardPoints();
+
+
 
 //קבלת כל הנקודות הקיימות
 async function GetPoints() {
@@ -167,6 +166,7 @@ async function managerGetVisits() {
         },
     });
     const visits = await response.json();
+console.log(visits);
 
     let tbody = document.getElementById("visitsBody");
     tbody.innerHTML = "";
@@ -182,7 +182,10 @@ async function managerGetVisits() {
 }
 
 
-
+function loadManagerPage(){
+    FillTable();
+    managerGetVisits();
+}
 
 // האזנה ללחיצה על Enter 
 document.addEventListener('keydown', function (event) {

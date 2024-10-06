@@ -26,7 +26,7 @@ body {
     padding: 10px 20px;
     border: rgb(0, 0, 0) solid 1px;
     border-radius: 10px;
-    box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 10px 10px rgba(0, 0, 0, 0.3);
     cursor: pointer;
     margin-top: 20px;
     width: 150px;

@@ -59,12 +59,12 @@ app.delete('/points/:idx', (req, res) => {
 
 let visitLogs = [];
 
-// קריאת כל הנקודות (get)
+// רשימת התיעודים
 app.get('/visit', (req, res) => {
     res.status(200).json(visitLogs);
 });
 
-//יצירת נקודה חדשה (POST)
+//שמירת תיעוד
 app.post('/Visit', (req, res) => {
     let visitData = req.body;
     visitLogs.push(visitData);
