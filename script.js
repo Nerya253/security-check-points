@@ -17,7 +17,7 @@ async function FillTable() {
         s += "<tr>";
         s += `<td>${i + 1}</td>`;
         s += `<td>${pointsToShow[i].pointName}</td>`;
-        s += `<td><button id="edit" onclick="openModal(${i})">EDIT</button></td>`;
+        s += `<td><button id="edit" onclick="openEditModal(${i})">EDIT</button></td>`;
         s += `<td><button id="delete" onclick="deletePoint(${i})">DELETE</button></td>`;
         s += "</tr>";
     }
@@ -35,7 +35,7 @@ function AddNewPoint() {
     }
 
     if (sameName(newPointName)) {
-        alert("There is already a point in this name");
+        openSameModal()
         return;
     }
 
@@ -77,23 +77,11 @@ async function addPointToServer(point) {
 let isModalOpen = false; 
 let editIndex = null;
 
-function openModal(index) {
-    editIndex = index;
-    let currentPoint = pointsToShow[index].pointName;
-    document.getElementById("edit-point-name").value = "";
-    document.getElementById("editModal").style.display = "block";
-    isModalOpen = true; 
-    document.getElementById("edit-point-name").focus(); 
 
-}
-
-function closeModal() {
-    document.getElementById("editModal").style.display = "none";
-    isModalOpen = false;   
-}
 
 //עריכת נקודה
 function editPoint() {
+    closeEditModal();
     let currentPoint = pointsToShow[editIndex].pointName;
     let newName = document.getElementById("edit-point-name").value;
     let haveOneMore = false;
@@ -104,7 +92,7 @@ function editPoint() {
     
     pointsToShow.forEach(point => {
         if (newName === point.pointName) {
-            alert("There is already a point in this name");
+            openSameModal()
             haveOneMore = true;
             return;
         }
@@ -115,7 +103,6 @@ function editPoint() {
     
     updateEditPointOnServer(pointsToShow[editIndex].id, newName);
     FillTable();
-    closeModal();
     updateVisitLogs(currentPoint, newName);
 }
 
@@ -201,14 +188,6 @@ function submitVisit() {
     openSubmitModal()
 }
 
-function openSubmitModal() {
-    document.getElementById("editModal").style.display = "block";
-}
-
-function closeSubmitModal() {
-    document.getElementById("editModal").style.display = "none";
-}
-
 
 //שמירת כל נתוני התיעוד בשרת
 async function sendVisitToServer(visitData) {
@@ -247,6 +226,40 @@ async function managerGetVisits() {
         tbody.innerHTML += row;
     });
 }
+
+function openSameModal() {
+    document.getElementById("sameModal").style.display = "block";
+}
+
+function closeSameModal() {
+    document.getElementById("sameModal").style.display = "none";
+}
+
+function openSubmitModal() {
+    document.getElementById("submitModal").style.display = "block";
+}
+
+function closeSubmitModal() {
+    document.getElementById("submitModal").style.display = "none";
+}
+
+function openEditModal(index) {
+    editIndex = index;
+    let currentPoint = pointsToShow[index].pointName;
+    document.getElementById("edit-point-name").value = "";
+    document.getElementById("editModal").style.display = "block";
+    isModalOpen = true; 
+    document.getElementById("edit-point-name").focus(); 
+
+}
+
+function closeEditModal() {
+    document.getElementById("editModal").style.display = "none";
+    isModalOpen = false;   
+}
+
+
+
 
 function loadManagerPage() {
     FillTable();

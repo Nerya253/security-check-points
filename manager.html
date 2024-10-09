@@ -36,12 +36,22 @@
             </table>
         </div>
 
+        <div id="sameModal" class="modal">
+            <div class="modal-content">
+                <div id="same">
+                    <h3>There is a point with this name</h3>
+                    <h1>choose another name please</h1>
+                </div>
+                <button id="button" onclick="closeSameModal()">OK</button>
+            </div>
+        </div>
+
         <div id="editModal" class="modal">
             <div class="modal-content">
                 <h1>Edit Point Name</h1>
                 <input type="text" id="edit-point-name" placeholder="Enter new point name">
                 <div>
-                    <button id="cancel" onclick="closeModal()">CANCEL</button>
+                    <button id="cancel" onclick="closeEditModal()">CANCEL</button>
                     <button id="save" onclick="editPoint()">SAVE</button>
                 </div>
             </div>

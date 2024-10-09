@@ -38,6 +38,7 @@ body {
     background-color: #0056b3;
 }
 
+
 a {
     text-decoration: none;
     color: #fff;
@@ -144,6 +145,7 @@ td {
     width: fit-content;
     background-color: red;
     cursor: pointer;
+    
 }
 
 #save {
@@ -188,6 +190,9 @@ td {
     font-size: 25px;
 }
 
+#same{
+    padding: 20px;
+}
 
 
 
