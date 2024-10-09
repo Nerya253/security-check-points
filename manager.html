@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <title>ניהול נקודות שמירה</title>
+    <title>MANAGER</title>
     <script src="script.js" defer></script>
 </head>
 
@@ -13,21 +13,21 @@
     <h1 id="h1">Access point management</h1>
     <div id="points-conteiner">
         <div id="place-add-point">
-            <h2 id="h2">הוסף נקודת שמירה</h2>
-            <input type="text" id="point-name" placeholder="שם נקודת שמירה">
-            <button onclick="AddNewPoint()" id="addPoint-btn">הוסף נקודת שמירה</button>
+            <h2 id="h2">ADD NEW POINT</h2>
+            <button onclick="AddNewPoint()" id="addPoint-btn">ADD POINT</button>
+            <input type="text" id="point-name" placeholder="WRITE A NEW POINT NAME">
         </div>
 
         <div id="list-points">
-            <h2>רשימת נקודות שמירה</h2>
+            <h2>GUARD POINTS</h2>
 
             <table id="MainTable" border="1">
                 <thead>
                     <tr>
+                        <th>DELETE</th>
+                        <th>EDIT</th>
+                        <th>LOCATION</th>
                         <th>#</th>
-                        <th>מיקום</th>
-                        <th>עריכה</th>
-                        <th>מחיקה</th>
                     </tr>
                 </thead>
                 <tbody id="tbodyMainTable">
@@ -37,13 +37,13 @@
         </div>
 
         <div id="tiod-place">
-            <h2>תיעוד ביקורים</h2>
+            <h2>VISIT LOG</h2>
             <table id="tiod-bikur-tavla" border="1">
                 <thead>
                     <tr>
-                        <th>נקודת שמירה</th>
-                        <th>שעת ביקור</th>
-                        <th>תאריך ביקור</th>
+                        <th>DATE</th>
+                        <th>TIME</th>
+                        <th>POINT</th>
                     </tr>
                 </thead>
                 <tbody id="visitsBody">

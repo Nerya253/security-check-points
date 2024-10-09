@@ -1,8 +1,6 @@
 let points = [];
 let pointsToShow = points;
 
-
-
 //קבלת כל הנקודות הקיימות
 async function GetPoints() {
     let url = "/points";
@@ -11,37 +9,37 @@ async function GetPoints() {
 
     return data;
 }
+
 //תמלא את הטבלה
 async function FillTable() {
     pointsToShow = await GetPoints();
     let s = "";
     for (let i = 0; i < pointsToShow.length; i++) {
         s += "<tr>";
+        s += `<td><button id="delete" onclick="deletePoint(${i})">DELETE</button></td>`;
+        s += `<td><button id="edit" onclick="editPoint(${i})">EDIT</button></td>`;
+        s += `<td>${pointsToShow[i].pointName}</td>`;
         s += `<td>${i + 1}</td>`;
-        s += `<td>${pointsToShow[i].location}</td>`;
-        s += `<td><button id="edit" onclick="editPoint(${i})">עריכה</button></td>`;
-        s += `<td><button id="delete" onclick="deletePoint(${i})">מחיקה</button></td>`;
         s += "</tr>";
     }
-
     document.getElementById("tbodyMainTable").innerHTML = s;
 }
 
 
 //הוספת נקודה חדשה
 function AddNewPoint() {
-    let pointLocation = document.getElementById("point-name").value;
+    let newPointName = document.getElementById("point-name").value;
 
-    if (!pointLocation) {
+    if (!newPointName) {
         alert("מלא את כל השדות");
         return;
     }
-    if (sameName(pointLocation)) {
-        alert("הנקודה קיימת");
+    if (sameName(newPointName)) {
+        alert("There is already a point in this name");
         return;
     }
     let point = {
-        location: pointLocation
+        pointName: newPointName
     };
 
     points.push(point);
@@ -50,11 +48,12 @@ function AddNewPoint() {
 
     document.getElementById("point-name").value = "";
 }
+
 //בדיקה שברגע הוספת נקודה אין נקודה עם אותו שם
-function sameName(pointLocation) {
+function sameName(newPointName) {
     let same = false;
     for (let i = 0; i < pointsToShow.length; i++) {
-        if (pointsToShow[i].location === pointLocation) {
+        if (pointsToShow[i].pointName === newPointName) {
             same = true;
             break;
         }
@@ -76,8 +75,8 @@ async function addPointToServer(point) {
 
 //עריכת נקודה
 function editPoint(index) {
-    let currentPoint = pointsToShow[index].location;
-    let newName = prompt("הכנס את השם החדש", currentPoint);
+    let currentPoint = pointsToShow[index].pointName;
+    let newName = prompt("WRITE THE NEW NAME", currentPoint);
     let haveOneMore = false;
 
     if (newName === null || newName.trim() === "") {
@@ -85,16 +84,16 @@ function editPoint(index) {
     }
 
     pointsToShow.forEach(point => {
-        console.log(point.location);
-        if (newName === point.location) {
-            alert("הנקודה קיימת");
+        console.log(point.pointName);
+        if (newName === point.pointName) {
+            alert("There is already a point in this name");
             haveOneMore = true;
             return;
         }
     })
     if (haveOneMore) return
 
-    pointsToShow[index].location = newName;
+    pointsToShow[index].pointName = newName;
 
     updateEditPointOnServer(pointsToShow[index].id, newName);
     FillTable();
@@ -120,7 +119,7 @@ async function updateEditPointOnServer(pointId, newName) {
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify({ location: newName })
+        body: JSON.stringify({ pointName: newName })
     });
 }
 
@@ -161,7 +160,7 @@ async function guardPoints() {
     let data = await response.json();
     let s = "";
     for (let point_id in data) {
-        s += `<option value="${data[point_id].id}">${data[point_id].location}</option>`;
+        s += `<option value="${data[point_id].id}">${data[point_id].pointName}</option>`;
     }
     document.getElementById("visitPointSelect").innerHTML = s;
 }
@@ -211,11 +210,12 @@ async function managerGetVisits() {
     tbody.innerHTML = "";
 
     visits.forEach(visit => {
-        let row = `<tr>
-                    <td>${visit.pointName}</td>
-                    <td>${visit.time}</td>
-                    <td>${visit.date}</td>
-                   </tr>`;
+        let row = 
+            `<tr>
+            <td>${visit.date}</td>
+            <td>${visit.time}</td>
+            <td>${visit.pointName}</td>
+            </tr>`;
         tbody.innerHTML += row;
     });
 }

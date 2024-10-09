@@ -34,7 +34,7 @@ app.get('/points', (req, res) => {
 app.post('/points', (req, res) => {
     let point = {};
     point.id = pointsCnt++;
-    point.location = req.body.location;
+    point.pointName = req.body.pointName;
     points.push(point);
 
     res.status(200).json("ok");
@@ -44,12 +44,12 @@ app.post('/points', (req, res) => {
 app.patch('/points/:idx', (req, res) => {
     let idx = req.params.idx;
     visitLogs.forEach(visit => {
-        if(visit.pointName === points[idx].location)
+        if(visit.pointName === points[idx].pointName)
             {
-                visit.pointName = req.body.location;
+                visit.pointName = req.body.pointName;
             }    
         })
-    points[idx].location = req.body.location;
+    points[idx].pointName = req.body.pointName;
     res.status(200).json("ok");
 });
 
