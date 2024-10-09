@@ -198,8 +198,17 @@ function submitVisit() {
         date: visitDate
     };
     sendVisitToServer(visitData);
-    alert("התיעוד נשלח")
+    openSubmitModal()
 }
+
+function openSubmitModal() {
+    document.getElementById("editModal").style.display = "block";
+}
+
+function closeSubmitModal() {
+    document.getElementById("editModal").style.display = "none";
+}
+
 
 //שמירת כל נתוני התיעוד בשרת
 async function sendVisitToServer(visitData) {
