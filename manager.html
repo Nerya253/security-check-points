@@ -14,8 +14,8 @@
     <div id="points-conteiner">
         <div id="place-add-point">
             <h2 id="h2">ADD NEW POINT</h2>
-            <button onclick="AddNewPoint()" id="addPoint-btn">ADD POINT</button>
             <input type="text" id="point-name" placeholder="WRITE A NEW POINT NAME">
+            <button onclick="AddNewPoint()" id="addPoint-btn">ADD POINT</button>
         </div>
 
         <div id="list-points">
@@ -24,10 +24,10 @@
             <table id="MainTable" border="1">
                 <thead>
                     <tr>
-                        <th>DELETE</th>
-                        <th>EDIT</th>
-                        <th>LOCATION</th>
                         <th>#</th>
+                        <th>LOCATION</th>
+                        <th>EDIT</th>
+                        <th>DELETE</th>
                     </tr>
                 </thead>
                 <tbody id="tbodyMainTable">
@@ -36,14 +36,25 @@
             </table>
         </div>
 
+        <div id="editModal" class="modal">
+            <div class="modal-content">
+                <h1>Edit Point Name</h1>
+                <input type="text" id="edit-point-name" placeholder="Enter new point name">
+                <div>
+                    <button id="cancel" onclick="closeModal()">CANCEL</button>
+                    <button id="save" onclick="editPoint()">SAVE</button>
+                </div>
+            </div>
+        </div>
+
         <div id="tiod-place">
             <h2>VISIT LOG</h2>
             <table id="tiod-bikur-tavla" border="1">
                 <thead>
                     <tr>
-                        <th>DATE</th>
-                        <th>TIME</th>
                         <th>POINT</th>
+                        <th>TIME</th>
+                        <th>DATE</th>
                     </tr>
                 </thead>
                 <tbody id="visitsBody">

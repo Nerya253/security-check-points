@@ -6,7 +6,6 @@ async function GetPoints() {
     let url = "/points";
     let response = await fetch(url);
     let data = await response.json();
-
     return data;
 }
 
@@ -16,10 +15,10 @@ async function FillTable() {
     let s = "";
     for (let i = 0; i < pointsToShow.length; i++) {
         s += "<tr>";
-        s += `<td><button id="delete" onclick="deletePoint(${i})">DELETE</button></td>`;
-        s += `<td><button id="edit" onclick="editPoint(${i})">EDIT</button></td>`;
-        s += `<td>${pointsToShow[i].pointName}</td>`;
         s += `<td>${i + 1}</td>`;
+        s += `<td>${pointsToShow[i].pointName}</td>`;
+        s += `<td><button id="edit" onclick="openModal(${i})">EDIT</button></td>`;
+        s += `<td><button id="delete" onclick="deletePoint(${i})">DELETE</button></td>`;
         s += "</tr>";
     }
     document.getElementById("tbodyMainTable").innerHTML = s;
@@ -34,13 +33,15 @@ function AddNewPoint() {
         alert("מלא את כל השדות");
         return;
     }
+
     if (sameName(newPointName)) {
         alert("There is already a point in this name");
         return;
     }
+
     let point = {
         pointName: newPointName
-    };
+    }
 
     points.push(point);
     addPointToServer(point);
@@ -73,18 +74,35 @@ async function addPointToServer(point) {
     });
 }
 
-//עריכת נקודה
-function editPoint(index) {
-    let currentPoint = pointsToShow[index].pointName;
-    let newName = prompt("WRITE THE NEW NAME", currentPoint);
-    let haveOneMore = false;
+let isModalOpen = false; 
+let editIndex = null;
 
+function openModal(index) {
+    editIndex = index;
+    let currentPoint = pointsToShow[index].pointName;
+    document.getElementById("edit-point-name").value = "";
+    document.getElementById("editModal").style.display = "block";
+    isModalOpen = true; 
+    document.getElementById("edit-point-name").focus(); 
+
+}
+
+function closeModal() {
+    document.getElementById("editModal").style.display = "none";
+    isModalOpen = false;   
+}
+
+//עריכת נקודה
+function editPoint() {
+    let currentPoint = pointsToShow[editIndex].pointName;
+    let newName = document.getElementById("edit-point-name").value;
+    let haveOneMore = false;
+    
     if (newName === null || newName.trim() === "") {
         return;
     }
-
+    
     pointsToShow.forEach(point => {
-        console.log(point.pointName);
         if (newName === point.pointName) {
             alert("There is already a point in this name");
             haveOneMore = true;
@@ -92,11 +110,12 @@ function editPoint(index) {
         }
     })
     if (haveOneMore) return
-
-    pointsToShow[index].pointName = newName;
-
-    updateEditPointOnServer(pointsToShow[index].id, newName);
+    
+    pointsToShow[editIndex].pointName = newName;
+    
+    updateEditPointOnServer(pointsToShow[editIndex].id, newName);
     FillTable();
+    closeModal();
     updateVisitLogs(currentPoint, newName);
 }
 
@@ -212,9 +231,9 @@ async function managerGetVisits() {
     visits.forEach(visit => {
         let row = 
             `<tr>
-            <td>${visit.date}</td>
-            <td>${visit.time}</td>
             <td>${visit.pointName}</td>
+            <td>${visit.time}</td>
+            <td>${visit.date}</td>
             </tr>`;
         tbody.innerHTML += row;
     });
@@ -226,10 +245,14 @@ function loadManagerPage() {
 }
 
 // האזנה ללחיצה על Enter 
-document.addEventListener('keydown', function (event) {
+document.addEventListener('keydown', function(event) {
     if (event.key === 'Enter') {
         event.preventDefault();
-        AddNewPoint();
+
+        if (isModalOpen) {
+            editPoint();
+        } else {
+            AddNewPoint();
+        }
     }
 });
-
