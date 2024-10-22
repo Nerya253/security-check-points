@@ -10,6 +10,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 const port = 3333;
 
+
 //מסלול כתובות ראשיות
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '/public/select.html'));
@@ -44,11 +45,10 @@ app.post('/points', (req, res) => {
 app.patch('/points/:idx', (req, res) => {
     let idx = req.params.idx;
     visitLogs.forEach(visit => {
-        if(visit.pointName === points[idx].pointName)
-            {
-                visit.pointName = req.body.pointName;
-            }    
-        })
+        if (visit.pointName === points[idx].pointName) {
+            visit.pointName = req.body.pointName;
+        }
+    })
     points[idx].pointName = req.body.pointName;
     res.status(200).json("ok");
 });
@@ -81,7 +81,6 @@ app.post('/Visit', (req, res) => {
 
     res.status(200).json("ביקור נרשם בהצלחה");
 });
-
 
 
 app.listen(port, () => {

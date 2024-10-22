@@ -1,34 +1,34 @@
 <!DOCTYPE html>
-<html lang="en" >
-    
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="style.css">
-        <title>GUARD</title>
-        <script  src="script.js" defer></script>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>GUARD</title>
+    <script src="script.js" defer></script>
 </head>
 
 <body onload="guardPoints()">
     <h1 id="h1">Documentation of visits</h1>
 
     <div id="tiod-bikur">
-        <div >
+        <div>
             <h2>Select a save point to record a visit</h2>
         </div>
         <div>
             <select id="visitPointSelect"></select>
-            <button  id="button" onclick="submitVisit()">SUBMIT</button>
+            <button id="button" onclick="submitVisit()">SUBMIT</button>
         </div>
     </div>
 
     <div id="submitModal" class="modal">
         <div class="modal-content">
             <h1>The documentation has been sent</h1>
-            <button  id="button" onclick="closeSubmitModal()">OK</button>
+            <button id="button" onclick="closeSubmitModal()">OK</button>
         </div>
     </div>
-    
+
     <div>
         <a href="select.html"><button class="move-btn">back to select</button></a>
     </div>

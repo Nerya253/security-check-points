@@ -24,13 +24,12 @@ async function FillTable() {
     document.getElementById("tbodyMainTable").innerHTML = s;
 }
 
-
 //הוספת נקודה חדשה
 function AddNewPoint() {
     let newPointName = document.getElementById("point-name").value;
 
-    if (!newPointName) {
-        alert("מלא את כל השדות");
+    if (newPointName === null || newPointName.trim() === "") {
+        alert("Fill in the fields");
         return;
     }
 
@@ -64,6 +63,7 @@ function sameName(newPointName) {
 
 //הוספת הנקודה החדשה לשרת
 async function addPointToServer(point) {
+
     let url = "/points";
     await fetch(url, {
         method: "POST",
@@ -74,10 +74,8 @@ async function addPointToServer(point) {
     });
 }
 
-let isModalOpen = false; 
+let isModalOpen = false;
 let editIndex = null;
-
-
 
 //עריכת נקודה
 function editPoint() {
@@ -85,11 +83,11 @@ function editPoint() {
     let currentPoint = pointsToShow[editIndex].pointName;
     let newName = document.getElementById("edit-point-name").value;
     let haveOneMore = false;
-    
+
     if (newName === null || newName.trim() === "") {
         return;
     }
-    
+
     pointsToShow.forEach(point => {
         if (newName === point.pointName) {
             openSameModal()
@@ -98,9 +96,9 @@ function editPoint() {
         }
     })
     if (haveOneMore) return
-    
+
     pointsToShow[editIndex].pointName = newName;
-    
+
     updateEditPointOnServer(pointsToShow[editIndex].id, newName);
     FillTable();
     updateVisitLogs(currentPoint, newName);
@@ -119,6 +117,7 @@ function updateVisitLogs(currentPoint, newName) {
 
 //עדכון העריכה בשרת
 async function updateEditPointOnServer(pointId, newName) {
+
     let url = `/points/${pointId}`;
     await fetch(url, {
         method: "PATCH",
@@ -188,7 +187,6 @@ function submitVisit() {
     openSubmitModal()
 }
 
-
 //שמירת כל נתוני התיעוד בשרת
 async function sendVisitToServer(visitData) {
     let url = "/Visit";
@@ -217,7 +215,7 @@ async function managerGetVisits() {
     tbody.innerHTML = "";
 
     visits.forEach(visit => {
-        let row = 
+        let row =
             `<tr>
             <td>${visit.pointName}</td>
             <td>${visit.time}</td>
@@ -226,6 +224,8 @@ async function managerGetVisits() {
         tbody.innerHTML += row;
     });
 }
+
+
 
 function openSameModal() {
     document.getElementById("sameModal").style.display = "block";
@@ -248,16 +248,14 @@ function openEditModal(index) {
     let currentPoint = pointsToShow[index].pointName;
     document.getElementById("edit-point-name").value = "";
     document.getElementById("editModal").style.display = "block";
-    isModalOpen = true; 
-    document.getElementById("edit-point-name").focus(); 
-
+    isModalOpen = true;
+    document.getElementById("edit-point-name").focus();
 }
 
 function closeEditModal() {
     document.getElementById("editModal").style.display = "none";
-    isModalOpen = false;   
+    isModalOpen = false;
 }
-
 
 
 
@@ -266,8 +264,9 @@ function loadManagerPage() {
     managerGetVisits();
 }
 
+
 // האזנה ללחיצה על Enter 
-document.addEventListener('keydown', function(event) {
+document.addEventListener('keydown', function (event) {
     if (event.key === 'Enter') {
         event.preventDefault();
 
